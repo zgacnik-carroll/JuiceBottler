@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Plant" default="compile" basedir=".">
+
+    <!-- set global properties for this build -->
+    <property name="src" location="src"/>
+    <property name="dist" location="dist"/>
+
+    <!-- create distribution directories -->
+    <target name="init">
+        <mkdir dir="${dist}"/>
+        <mkdir dir="${dist}/classes"/>
+    </target>
+
+    <!-- compile source code -->
+    <target name="compile" depends="init">
+        <javac
+                includeantruntime="false"
+                srcdir="${src}"
+                destdir="${dist}/classes"/>
+    </target>
+
+    <!-- create executable jar -->
+    <target name="jar" depends="init,compile">
+        <jar destfile="${dist}/${ant.project.name}.jar"
+             basedir="${dist}/classes">
+
+            <manifest>
+                <attribute name="Main-Class"
+                           value="${ant.project.name}"/>
+            </manifest>
+
+        </jar>
+    </target>
+
+    <!-- run the program -->
+    <target name="run" depends="jar">
+        <java jar="${dist}/${ant.project.name}.jar"
+              fork="true"/>
+    </target>
+
+    <!-- clean build output -->
+    <target name="clean">
+        <delete dir="${dist}"/>
+    </target>
+
+</project>
